@@ -1,0 +1,15 @@
+Flask
+pandas
+sentence-transformers
+docx2txt
+PyPDF2
+pdfplumber
+docx 
+gunicorn
+
+torch
+
+joblib
+python-docx
+pdfminer.six
+requests
