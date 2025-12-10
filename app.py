@@ -12,7 +12,7 @@ import unicodedata
 # from openai import OpenAI
 import requests
 import json
-import google.generativeai as genai
+# mport google.generativeai as genaii
 import subprocess
 
 from docx import Document
