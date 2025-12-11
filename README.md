@@ -11,7 +11,7 @@ It analyzes resumes, matches them with suitable job roles using **Sentence Trans
 
 🔗 **Live App:**  
 ```
-Coming Soon **
+https://m4v7lcj4-5000.inc1.devtunnels.ms/
 ```
 
 🎬 **Working Demo (YouTube):**  
