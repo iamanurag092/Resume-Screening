@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ResuMizer – AI Resume Screening & GenAI Rewriter</title>
+
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <!-- Styles -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='favicon.ico') }}"
+      type="image/x-icon"
+    />
+  </head>
+
+  <body class="landing-body">
+    <!-- NAVBAR -->
+    <header class="lm-nav">
+      <div class="lm-nav-inner">
+        <a href="{{ url_for('landing') }}" class="lm-logo orbitron">
+          <span class="lm-logo-dot"></span>
+          ResuMizer
+        </a>
+
+        <nav class="lm-nav-links">
+          <a href="#features">Features</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="#why">Why ResuMizer</a>
+          <a href="#maker">About</a>
+        </nav>
+
+        <div class="lm-nav-cta">
+          <a href="{{ url_for('index') }}" class="lm-btn lm-btn-primary">
+            Try the AI Now
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="lm-main">
+      <!-- HERO SECTION -->
+      <section class="lm-hero">
+        <div class="lm-hero-inner">
+          <div class="lm-hero-left">
+            <div class="lm-hero-pill orbitron">
+              <span class="lm-pill-dot"></span>
+              AI-Powered Resume Intelligence
+            </div>
+
+            <h1 class="lm-hero-title">
+              Turn Your Resume<br />
+              Into a Job-Magnet.
+            </h1>
+
+            <p class="lm-hero-sub">
+              AI-driven resume screening, job matching, and GenAI rewriting —
+              built for serious careers, not generic templates.
+            </p>
+
+            {% if feedback_avg and feedback_count %}
+            <div class="lm-hero-stats">
+              <div class="lm-stat">
+                <span class="lm-stat-label">Average User Rating</span>
+                <span class="lm-stat-value">
+                  ⭐ {{ '%.1f'|format(feedback_avg) }} · {{ feedback_count }}
+                  review{% if feedback_count > 1 %}s{% endif %}
+                </span>
+              </div>
+              <div class="lm-stat">
+                <span class="lm-stat-label">Resumes Analyzed</span>
+                <span class="lm-stat-value">Live on Local AI</span>
+              </div>
+            </div>
+            {% endif %}
+
+            <div class="lm-hero-cta">
+              <a href="{{ url_for('index') }}" class="lm-btn lm-btn-primary">
+                🚀 Launch ResuMizer
+              </a>
+              <a
+                href="https://youtu.be/w_HYf3ZP2NY"
+                target="_blank"
+                class="lm-btn lm-btn-ghost"
+              >
+                ▶ Watch Demo
+              </a>
+            </div>
+
+            <div class="lm-hero-tags">
+              <span class="lm-tag">Local AI · Zero API Cost</span>
+              <span class="lm-tag">Semantic Matching</span>
+              <span class="lm-tag">GenAI Bullet Rewriter</span>
+            </div>
+          </div>
+
+          <!-- Hero Visual -->
+          <div class="lm-hero-right">
+            <div class="lm-orb">
+              <div class="lm-orb-ring lm-orb-ring-1"></div>
+              <div class="lm-orb-ring lm-orb-ring-2"></div>
+              <div class="lm-orb-core"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LIVE RESULT PREVIEW -->
+      <section class="lm-section" id="preview">
+        <div class="lm-section-head">
+          <h2>See AI Results in Real-Time</h2>
+          <p>
+            This is the kind of insight ResuMizer gives you for every resume
+            upload.
+          </p>
+        </div>
+
+        <div class="lm-preview-card">
+          <div class="lm-preview-header">
+            <div class="lm-preview-title-block">
+              <div class="rank-circle best-rank-circle">🥇</div>
+              <div>
+                <h3 class="job-title">Senior AI Engineer</h3>
+                <p class="job-sub">Best Match • AI &amp; ML</p>
+              </div>
+            </div>
+
+            <div class="lm-best-ribbon">
+              <span class="lm-best-pill">
+                <i class="fa-solid fa-trophy"></i> Best Match
+              </span>
+              <div class="score-block">
+                <div class="score">94%</div>
+                <div class="score-label">Match Score</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lm-preview-body">
+            <div class="lm-preview-row">
+              <span class="lm-preview-label">Skills Matched</span>
+              <div class="lm-skill-badges">
+                <span class="lm-skill lm-skill-good">Python</span>
+                <span class="lm-skill lm-skill-good">Machine Learning</span>
+                <span class="lm-skill lm-skill-good">NLP</span>
+                <span class="lm-skill lm-skill-good">Flask</span>
+              </div>
+            </div>
+
+            <div class="lm-preview-row">
+              <span class="lm-preview-label">Skills to Add</span>
+              <div class="lm-skill-badges">
+                <span class="lm-skill lm-skill-missing">PyTorch</span>
+                <span class="lm-skill lm-skill-missing">Docker</span>
+              </div>
+            </div>
+
+            <div class="lm-preview-ai">
+              <span class="lm-ai-label">
+                <i class="fa-solid fa-lightbulb"></i> AI Suggests
+              </span>
+              <p>
+                Quantify impact: “Led a team of 5 engineers to ship
+                production-grade ML models, improving model latency by 32%.”
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURES GRID -->
+      <section class="lm-section" id="features">
+        <div class="lm-section-head">
+          <h2>Elite AI Features</h2>
+          <p>
+            Everything you need to turn your resume into a career accelerator.
+          </p>
+        </div>
+
+        <div class="lm-feature-grid">
+          <article class="lm-feature-card">
+            <div class="lm-feature-icon">🧠</div>
+            <h3>Semantic Resume Screening</h3>
+            <p>
+              SentenceTransformer-based matching that understands meaning, not
+              just keywords.
+            </p>
+          </article>
+
+          <article class="lm-feature-card">
+            <div class="lm-feature-icon">✨</div>
+            <h3>GenAI Bullet Rewriter</h3>
+            <p>
+              Local LLaMA-3 via Ollama transforms weak lines into
+              impact-driven, ATS-friendly bullets.
+            </p>
+          </article>
+
+          <article class="lm-feature-card">
+            <div class="lm-feature-icon">📊</div>
+            <h3>Skill Coverage Dashboard</h3>
+            <p>
+              Visual skill coverage and gap analysis for every job match,
+              including missing skills.
+            </p>
+          </article>
+
+          <article class="lm-feature-card">
+            <div class="lm-feature-icon">🏆</div>
+            <h3>Best-Match Job Ranking</h3>
+            <p>
+              Hybrid scoring (semantic + skills) with glowing badges for your
+              strongest opportunities.
+            </p>
+          </article>
+
+          <article class="lm-feature-card">
+            <div class="lm-feature-icon">⚡</div>
+            <h3>Sub-Second AI Response</h3>
+            <p>
+              Optimized inference for fast feedback on resume uploads, even
+              under load.
+            </p>
+          </article>
+
+          <article class="lm-feature-card">
+            <div class="lm-feature-icon">🔒</div>
+            <h3>Local, Private, Secure</h3>
+            <p>
+              Runs on your own infrastructure — zero cloud API dependency, full
+              control over data.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- HOW IT WORKS -->
+      <section class="lm-section" id="how-it-works">
+        <div class="lm-section-head">
+          <h2>How ResuMizer Works</h2>
+          <p>Advanced AI pipeline in 6 seamless steps.</p>
+        </div>
+
+        <div class="lm-steps">
+          <div class="lm-step">
+            <div class="lm-step-badge">1</div>
+            <h3>Upload Resume</h3>
+            <p>PDF or DOCX — ResuMizer extracts clean text automatically.</p>
+          </div>
+          <div class="lm-step">
+            <div class="lm-step-badge">2</div>
+            <h3>NLP Extraction</h3>
+            <p>Core skills and signals are extracted with robust NLP.</p>
+          </div>
+          <div class="lm-step">
+            <div class="lm-step-badge">3</div>
+            <h3>Semantic Embeddings</h3>
+            <p>SentenceTransformers convert both jobs and resumes into vectors.</p>
+          </div>
+          <div class="lm-step">
+            <div class="lm-step-badge">4</div>
+            <h3>Hybrid Scoring Engine</h3>
+            <p>Cosine similarity + skill coverage combine into one match score.</p>
+          </div>
+          <div class="lm-step">
+            <div class="lm-step-badge">5</div>
+            <h3>Top Job Matches</h3>
+            <p>Best matches ranked with skill coverage and gap breakdowns.</p>
+          </div>
+          <div class="lm-step">
+            <div class="lm-step-badge">6</div>
+            <h3>GenAI Resume Rewriter</h3>
+            <p>
+              Bullet suggestions are generated locally with LLaMA-3 via Ollama.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- WHY DIFFERENT -->
+      <section class="lm-section" id="why">
+        <div class="lm-section-head">
+          <h2>Why ResuMizer is Different</h2>
+          <p>Not another template site — a genuine AI resume engine.</p>
+        </div>
+
+        <div class="lm-why-grid">
+          <div class="lm-why-card">
+            <h3>Built for AI Roles</h3>
+            <p>
+              Designed specifically around data, ML, and GenAI roles — not
+              generic corporate job boards.
+            </p>
+          </div>
+          <div class="lm-why-card">
+            <h3>Local-First Architecture</h3>
+            <p>
+              Everything runs locally on your infra using Ollama + Python. No
+              vendor lock-in, no surprise bills.
+            </p>
+          </div>
+          <div class="lm-why-card">
+            <h3>Maker-Led Craft</h3>
+            <p>
+              Hand-built end-to-end by a single engineer — from UI and NLP
+              pipeline to GenAI integration.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- MAKER SECTION -->
+      <section class="lm-section" id="maker">
+        <div class="lm-maker-card">
+          <div class="lm-maker-avatar-wrap">
+            <div class="lm-maker-avatar-glow"></div>
+            <div class="lm-maker-avatar">
+              <i class="fa-solid fa-user-astronaut"></i>
+            </div>
+          </div>
+
+          <div class="lm-maker-body">
+            <h3 class="lm-maker-name">Anurag</h3>
+            <p class="lm-maker-role">AI &amp; Data Science Engineer</p>
+
+            <div class="lm-maker-tags">
+              <span>Python</span>
+              <span>Machine Learning</span>
+              <span>NLP</span>
+              <span>GenAI</span>
+              <span>Flask</span>
+            </div>
+
+            <p class="lm-maker-quote">
+              “I built ResuMizer to make sure strong talent is never hidden
+              behind weak resumes.”
+            </p>
+
+            <div class="lm-maker-links">
+              <a
+                href="https://github.com/iamanurag092/Resume-Screening"
+                target="_blank"
+              >
+                <i class="fab fa-github"></i> Project Repo
+              </a>
+              <a
+                href="https://www.linkedin.com/in/anurag092"
+                target="_blank"
+              >
+                <i class="fab fa-linkedin"></i> Connect on LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FINAL CTA -->
+      <section class="lm-section lm-cta-section">
+        <div class="lm-cta-box">
+          <h2>Let AI Rebuild Your Career Trajectory.</h2>
+          <p>
+            Upload your resume, see your best-fit roles, and get AI-crafted
+            bullet upgrades — all in one place.
+          </p>
+          <div class="lm-hero-cta">
+            <a href="{{ url_for('index') }}" class="lm-btn lm-btn-primary">
+              🚀 Launch ResuMizer
+            </a>
+            <a
+              href="https://github.com/iamanurag092/Resume-Screening"
+              target="_blank"
+              class="lm-btn lm-btn-ghost"
+            >
+              <i class="fab fa-github"></i> View on GitHub
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer social-footer">
+      <div class="social-container">
+        <p class="orbitron creator-text">
+          🚀 Built by <strong>Anurag</strong> 
+        </p>
+
+        <div class="social-links">
+          <a
+            href="https://github.com/iamanurag092"
+            target="_blank"
+            class="social-icon"
+          >
+            <i class="fab fa-github"></i>
+          </a>
+          <a
+            href="https://www.linkedin.com/in/anurag092"
+            target="_blank"
+            class="social-icon"
+          >
+            <i class="fab fa-linkedin"></i>
+          </a>
+          <a
+            href="https://www.instagram.com/iam._.anurag_"
+            target="_blank"
+            class="social-icon"
+          >
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a
+            href="https://twitter.com/Anuragt092"
+            target="_blank"
+            class="social-icon"
+          >
+            <i class="fab fa-x-twitter"></i>
+          </a>
+        </div>
+
+        <p class="footer-subtext">
+          Local AI · Zero API Cost · ResuMizer Experimental Build
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

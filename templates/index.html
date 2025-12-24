@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Resume Screening – Futuristic AI</title>
+    <title>ResuMizer App – AI Resume Screening Console</title>
 
     <!-- Fonts -->
     <link
@@ -12,11 +12,6 @@
     />
 
     <!-- Icons -->
-    <!-- <script
-      src="https://kit.fontawesome.com/your-kit.js"
-      crossorigin="anonymous"
-    ></script> -->
-
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -34,37 +29,58 @@
     />
   </head>
 
-  <body>
-    <div class="particles-bg"></div>
+  <body class="landing-body">
+    <!-- NAVBAR -->
+    <header class="lm-nav">
+      <div class="lm-nav-inner">
+        <a href="{{ url_for('landing') }}" class="lm-logo orbitron">
+          <span class="lm-logo-dot"></span>
+          ResuMizer
+        </a>
 
-    <div class="hero-grid">
-      <div class="container">
-        <!-- HEADER -->
-        <header class="header fade-in-up delay-0">
-          <h1 class="orbitron glow-text typing-effect">
-            🤖 ResuMizer 🚀
-          </h1>
-          <p class="tagline">
-            Advanced AI-powered resume analysis &amp; job matching
+        <nav class="lm-nav-links">
+          <a href="{{ url_for('landing') }}#features">Features</a>
+          <a href="{{ url_for('landing') }}#how-it-works">How It Works</a>
+          <a href="{{ url_for('landing') }}#maker">About</a>
+        </nav>
+
+        <div class="lm-nav-cta">
+          <a href="{{ url_for('landing') }}" class="lm-btn lm-btn-ghost">
+            ⬅ Back to Landing
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN APP LAYOUT -->
+    <main class="lm-main">
+      <!-- HEADER / STATUS -->
+      <section class="lm-section" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
+        <div class="lm-section-head" style="text-align: left;">
+          <h2 class="orbitron" style="font-size: 1.9rem; margin-bottom: 0.4rem;">
+            ResuMizer – AI Resume Screening Console
+          </h2>
+          <p style="max-width: 40rem;">
+            Upload your resume, get AI-ranked job matches, see missing skills, and rewrite your
+            bullets with local GenAI.
           </p>
-        </header>
+        </div>
 
-        <!-- STATUS PANEL -->
-        <section class="status-panel tech-card fade-in-up delay-1">
+        <div class="status-panel tech-card" style="margin-top: 1rem;">
           <div class="status-left">
-            <div class="status-dot"></div>
-            <span class="orbitron">SYSTEM STATUS</span>
+            <div class="status-dot online"></div>
+            <span class="orbitron">ENGINE STATUS</span>
           </div>
           <div class="status-right">
             <span>Model: <strong>Ready ✅</strong></span>
 
             <span>
-              Database:
+              Jobs:
               <strong>
                 {% if results %}
-                  {{ results|length }} 📊
+                  {{ results|length }} matched
                 {% else %}
-                  No results 📊
+                  Waiting for input
                 {% endif %}
               </strong>
             </span>
@@ -79,340 +95,295 @@
             </span>
             {% endif %}
           </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- UPLOAD FORM -->
-        <section class="upload-panel tech-card fade-in-up delay-2">
-          <h2 class="orbitron panel-title">📄 Upload Your Resume</h2>
+      <!-- 2-COLUMN APP GRID -->
+      <section class="lm-section" style="padding-top: 0;">
+        <div class="app-grid">
+          <!-- LEFT PANEL: INPUT + GENAI -->
+          <div class="app-left">
+            <!-- UPLOAD FORM -->
+            <section class="upload-panel tech-card fade-in-up delay-1">
+              <h2 class="orbitron panel-title">
+                <i class="fas fa-file-upload"></i> Upload Resume
+              </h2>
 
-          <form
-            method="POST"
-            action="{{ url_for('index') }}"
-            enctype="multipart/form-data"
-          >
-            <div class="upload-zone">
-              <input
-                type="file"
-                name="resume_file"
-                accept=".pdf,.docx"
-                required
-              />
-              <div>
-                <p>Drag &amp; drop or click to browse</p>
-                <small>PDF · DOCX</small>
-              </div>
-            </div>
-            <button type="submit" class="neon-button">
-              🔍 Analyze Resume
-            </button>
-          </form>
-        </section>
-
-        <!-- GENAI RESUME REWRITER -->
-        <section class="upload-panel tech-card fade-in-up delay-3">
-          <h2 class="orbitron panel-title">✨ GenAI Resume Bullet Rewriter</h2>
-
-          <form method="POST" action="{{ url_for('rewrite') }}">
-            <div
-              class="upload-zone"
-              style="flex-direction: column; align-items: stretch;"
-            >
-              <label><strong>Paste any resume line:</strong></label>
-
-              <textarea
-                name="raw_text"
-                rows="4"
-                required
-                placeholder="Built a machine learning model for prediction..."
-                style="width: 100%; margin-top: 8px;"
-              >{{ rewrite_original or '' }}</textarea>
-
-              <label style="margin-top: 12px;"
-                ><strong>Target Role (Optional)</strong></label
+              <form
+                method="POST"
+                action="{{ url_for('index') }}"
+                enctype="multipart/form-data"
               >
+                <div class="upload-zone">
+                  <input
+                    type="file"
+                    name="resume_file"
+                    accept=".pdf,.docx"
+                    required
+                  />
+                  <div>
+                    <p>Drag &amp; drop or click to browse</p>
+                    <small>PDF · DOCX</small>
+                  </div>
+                </div>
+                <button type="submit" class="neon-button">
+                  🔍 Analyze Resume
+                </button>
+              </form>
 
-              <input
-                type="text"
-                name="target_role"
-                placeholder="Eg:- Data Scientist, ML Engineer"
-                value="{{ rewrite_target_role or '' }}"
-                style="width: 100%; margin-top: 6px;"
-              />
-            </div>
-
-            <button type="submit" class="neon-button">
-              📝 Rewrite with AI
-            </button>
-          </form>
-
-          {% if rewrite_output %}
-          <div class="tech-card fade-in-up delay-4" style="margin-top: 14px;">
-            <h3 class="orbitron">Rewritten Bullet Points</h3>
-            <pre style="white-space: pre-wrap; margin-top: 8px;">
-{{ rewrite_output }}
-            </pre>
-          </div>
-          {% endif %}
-        </section>
-
-        <!-- ERROR MESSAGE -->
-        {% if error %}
-        <section class="tech-card fade-in-up delay-2">
-          ❗ {{ error }}
-        </section>
-        {% endif %}
-
-        <!-- RESULTS -->
-        {% if results %}
-        <section class="results-panel tech-card fade-in-up delay-3">
-          <h2 class="orbitron panel-title">🧠 AI Analysis Results</h2>
-
-          <div class="results-status">
-            <div><strong>Text Extraction:</strong> ✓</div>
-            <div><strong>Embeddings:</strong> ✓</div>
-            <div><strong>Matching:</strong> ✓</div>
-          </div>
-
-          {% if resume_score is defined %}
-          <div style="margin-top: 16px;">
-            <h3 class="orbitron">Overall Resume Score</h3>
-            <p style="font-size: 1.6rem; font-weight: bold;">
-              {{ resume_score }}/100
-            </p>
-            <p style="opacity: 0.9;">{{ score_message }}</p>
-          </div>
-          {% endif %}
-
-          <div class="match-list">
-            {% for job in results %}
-            <div
-              class="result-card fade-in-up {% if loop.first %}best-match-card{% endif %}"
-            >
-              {% if loop.first %}
-              <div class="best-match-ribbon">
-                🏆 Best Match
+              {% if resume_score is defined and resume_score is not none %}
+              <div class="overall-score-box" style="margin-top: 1.2rem;">
+                <h3 class="orbitron" style="font-size: 1.1rem; margin-bottom: 0.4rem;">
+                  Overall Resume Score
+                </h3>
+                <p style="font-size: 1.6rem; font-weight: 700; margin-bottom: 4px;">
+                  {{ resume_score }}/100
+                </p>
+                <p style="font-size: 0.95rem; opacity: 0.9;">{{ score_message }}</p>
               </div>
               {% endif %}
+            </section>
 
-              <div class="card-header">
-                <div class="title-block">
-                  <div
-                    class="rank-circle {% if loop.first %}rank-top{% endif %}"
+            <!-- GENAI RESUME REWRITER -->
+            <section class="upload-panel tech-card fade-in-up delay-2">
+              <h2 class="orbitron panel-title">
+                ✨ GenAI Resume Bullet Rewriter
+              </h2>
+
+              <form method="POST" action="{{ url_for('rewrite') }}">
+                <div
+                  class="upload-zone"
+                  style="flex-direction: column; align-items: stretch;"
+                >
+                  <label><strong>Paste any resume line / summary:</strong></label>
+
+                  <textarea
+                    name="raw_text"
+                    rows="4"
+                    required
+                    placeholder="Built a machine learning model for prediction..."
+                    style="width: 100%; margin-top: 8px;"
+                  >{{ rewrite_original or '' }}</textarea>
+
+                  <label style="margin-top: 12px;"
+                    ><strong>Target Role (Optional)</strong></label
                   >
-                    {% if loop.index == 1 %}
-                      🥇
-                    {% elif loop.index == 2 %}
-                      🥈
-                    {% elif loop.index == 3 %}
-                      🥉
-                    {% else %}
-                      {{ loop.index }}
-                    {% endif %}
-                  </div>
 
-                  <div>
-                    <h3 class="job-title">{{ job.title }}</h3>
-                    <p class="job-sub">Job Role</p>
-                  </div>
+                  <input
+                    type="text"
+                    name="target_role"
+                    placeholder="Eg: Data Scientist, ML Engineer"
+                    value="{{ rewrite_target_role or '' }}"
+                    style="width: 100%; margin-top: 6px;"
+                  />
                 </div>
-                <div class="score-block">
-                  <div class="score">
-                    {{ '%.2f'|format(job.score) }}%
-                  </div>
-                  <div class="score-label">
-                    Match Score
-                  </div>
-                </div>
-              </div>
 
-              <!-- Short description -->
-              <p class="job-desc">{{ job.description_snippet }}</p>
+                <button type="submit" class="neon-button">
+                  📝 Rewrite with AI
+                </button>
+              </form>
 
-              <!-- Meta info: matched / missing / coverage -->
-              <div class="result-meta-grid">
-                {% if job.matching_skills %}
-                <div class="meta-block">
-                  <span class="meta-icon">✅</span>
-                  <div>
-                    <div class="meta-label">Matched Skills</div>
-                    <div class="meta-value">
-                      {{ job.matching_skills|join(', ') }}
-                    </div>
-                  </div>
-                </div>
-                {% endif %}
-
-                {% if job.missing_skills %}
-                <div class="meta-block">
-                  <span class="meta-icon">❌</span>
-                  <div>
-                    <div class="meta-label">Missing Skills</div>
-                    <div class="meta-value">
-                      {{ job.missing_skills[:6]|join(', ') }}
-                      {% if job.missing_skills|length > 6 %}…{% endif %}
-                    </div>
-                  </div>
-                </div>
-                {% endif %}
-
-                <div class="meta-block">
-                  <span class="meta-icon">📊</span>
-                  <div>
-                    <div class="meta-label">Skill Coverage</div>
-                    <div class="meta-value">
-                      <strong>{{ job.skill_coverage }}%</strong>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- AI suggestions -->
-              {% if job.suggestions %}
-              <div class="ai-suggestions">
-                <div class="meta-label">💡 AI Suggestions</div>
-                <ul class="suggestion-list">
-                  {% for suggestion in job.suggestions %}
-                  <li>{{ suggestion }}</li>
-                  {% endfor %}
-                </ul>
+              {% if rewrite_output %}
+              <div class="tech-card fade-in-up delay-3" style="margin-top: 14px;">
+                <h3 class="orbitron">Rewritten Bullet Points</h3>
+                <pre style="white-space: pre-wrap; margin-top: 8px;">
+{{ rewrite_output }}
+                </pre>
               </div>
               {% endif %}
-            </div>
-            {% endfor %}
-          </div>
-        </section>
-        {% endif %}
+            </section>
 
-        <!-- FEEDBACK PANEL -->
-        <section class="tech-card feedback-panel fade-in-up delay-3">
-          <h2 class="orbitron panel-title">🗣️ Share Your Feedback</h2>
-          <p class="feedback-text">
-            Help me improve this AI Resume Assistant. What did you like, and
-            what can be better?
-          </p>
+            <!-- FEEDBACK PANEL -->
+            <section class="tech-card feedback-panel fade-in-up delay-3">
+              <h2 class="orbitron panel-title">🗣️ Share Your Feedback</h2>
+              <p class="feedback-text">
+                Help me improve ResuMizer. What worked well? What could be better?
+              </p>
 
-          {% if feedback_success %}
-          <div class="feedback-success">
-            ✅ Thank you for your feedback! It’s been recorded.
-          </div>
-          {% endif %}
+              {% if feedback_success %}
+              <div class="feedback-success">
+                ✅ Thank you for your feedback! It’s been recorded.
+              </div>
+              {% endif %}
 
-          <form
-            method="POST"
-            action="{{ url_for('feedback') }}"
-            class="feedback-form"
-          >
-            <div class="feedback-row">
-              <div class="feedback-field">
-                <label for="rating"><strong>Overall experience</strong></label>
-                <div class="rating-group">
-                  <label>
-                    <input type="radio" name="rating" value="5" required />
-                    <span>⭐️⭐️⭐️⭐️⭐️</span>
-                  </label>
-                  <label>
-                    <input type="radio" name="rating" value="4" />
-                    <span>⭐️⭐️⭐️⭐️</span>
-                  </label>
-                  <label>
-                    <input type="radio" name="rating" value="3" />
-                    <span>⭐️⭐️⭐️</span>
-                  </label>
-                  <label>
-                    <input type="radio" name="rating" value="2" />
-                    <span>⭐️⭐️</span>
-                  </label>
-                  <label>
-                    <input type="radio" name="rating" value="1" />
-                    <span>⭐️</span>
-                  </label>
+              <form
+                method="POST"
+                action="{{ url_for('feedback') }}"
+                class="feedback-form"
+              >
+                <div class="feedback-row">
+                  <div class="feedback-field">
+                    <label for="rating"><strong>Overall experience</strong></label>
+                    <div class="rating-group">
+                      <label>
+                        <input type="radio" name="rating" value="5" required />
+                        <span>⭐️⭐️⭐️⭐️⭐️</span>
+                      </label>
+                      <label>
+                        <input type="radio" name="rating" value="4" />
+                        <span>⭐️⭐️⭐️⭐️</span>
+                      </label>
+                      <label>
+                        <input type="radio" name="rating" value="3" />
+                        <span>⭐️⭐️⭐️</span>
+                      </label>
+                      <label>
+                        <input type="radio" name="rating" value="2" />
+                        <span>⭐️⭐️</span>
+                      </label>
+                      <label>
+                        <input type="radio" name="rating" value="1" />
+                        <span>⭐️</span>
+                      </label>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <div class="feedback-row">
-              <div class="feedback-field">
-                <label for="comments"><strong>Your thoughts</strong></label>
-                <textarea
-                  id="comments"
-                  name="comments"
-                  rows="3"
-                  placeholder="What worked well? What would you like to see improved?"
-                  required
-                ></textarea>
-              </div>
-            </div>
+                <div class="feedback-row">
+                  <div class="feedback-field">
+                    <label for="comments"><strong>Your thoughts</strong></label>
+                    <textarea
+                      id="comments"
+                      name="comments"
+                      rows="3"
+                      placeholder="What worked well? What would you like to see improved?"
+                      required
+                    ></textarea>
+                  </div>
+                </div>
 
-            <div class="feedback-row">
-              <div class="feedback-field">
-                <label for="email"><strong>Email (optional)</strong></label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="If you'd like me to follow up"
-                />
-              </div>
-            </div>
+                <div class="feedback-row">
+                  <div class="feedback-field">
+                    <label for="email"><strong>Email (optional)</strong></label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder="If you'd like me to follow up"
+                    />
+                  </div>
+                </div>
 
-            <button type="submit" class="neon-button">
-              💬 Submit Feedback
-            </button>
-          </form>
-        </section>
-
-        <!-- FOOTER WITH SOCIALS -->
-        <footer class="footer social-footer">
-          <div class="social-container">
-            <p class="orbitron creator-text">
-              🚀 Built by <strong>Anurag</strong>
-            </p>
-
-            <div class="social-links">
-              <!-- GitHub -->
-              <a
-                href="https://github.com/iamanurag092"
-                target="_blank"
-                class="social-icon"
-              >
-                <i class="fab fa-github"></i>
-              </a>
-
-              <!-- LinkedIn -->
-              <a
-                href="https://www.linkedin.com/in/anurag092"
-                target="_blank"
-                class="social-icon"
-              >
-                <i class="fab fa-linkedin"></i>
-              </a>
-
-              <!-- Instagram -->
-              <a
-                href="https://www.instagram.com/iam._.anurag_"
-                target="_blank"
-                class="social-icon"
-              >
-                <i class="fab fa-instagram"></i>
-              </a>
-
-              <!-- Twitter/X -->
-              <a
-                href="https://twitter.com/Anuragt092"
-                target="_blank"
-                class="social-icon"
-              >
-                <i class="fab fa-x-twitter"></i>
-              </a>
-            </div>
-
-            <p class="footer-subtext">
-              POWERED BY ollama AI
-            </p>
+                <button type="submit" class="neon-button">
+                  💬 Submit Feedback
+                </button>
+              </form>
+            </section>
           </div>
-        </footer>
-      </div>
-    </div>
+
+          <!-- RIGHT PANEL: RESULTS -->
+          <div class="app-right">
+            <!-- ERROR MESSAGE -->
+            {% if error %}
+            <section class="tech-card fade-in-up delay-1">
+              ❗ {{ error }}
+            </section>
+            {% endif %}
+
+            {% if results %}
+            <section class="results-panel tech-card fade-in-up delay-2">
+              <h2 class="orbitron panel-title">
+                🧠 AI Analysis Results
+              </h2>
+
+              <div class="results-status">
+                <div><strong>Text Extraction:</strong> ✓</div>
+                <div><strong>Embeddings:</strong> ✓</div>
+                <div><strong>Matching:</strong> ✓</div>
+              </div>
+
+              <div class="match-list">
+                {% for job in results %}
+                <div
+                  class="result-card fade-in-up {% if loop.index == 1 %}best-match-card{% endif %}"
+                >
+                  <div class="card-header">
+                    <div class="title-block">
+                      <div class="rank-circle">
+                        {% if loop.index == 1 %}
+                        🥇
+                        {% elif loop.index == 2 %}
+                        🥈
+                        {% elif loop.index == 3 %}
+                        🥉
+                        {% else %}
+                        {{ loop.index }}
+                        {% endif %}
+                      </div>
+                      <div>
+                        <h3 class="job-title">{{ job.title }}</h3>
+                        <p class="job-sub">
+                          {% if loop.index == 1 %}Best Match{% else %}Job Role{% endif %}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="score-block">
+                      {% if loop.index == 1 %}
+                      <div class="lm-best-pill" style="margin-bottom: 4px;">
+                        <i class="fa-solid fa-trophy"></i> Best Match
+                      </div>
+                      {% endif %}
+                      <div class="score">
+                        {{ '%.2f'|format(job.score) }}%
+                      </div>
+                      <div class="score-label">
+                        Match Score
+                      </div>
+                    </div>
+                  </div>
+
+                  <p class="job-desc">{{ job.description_snippet }}</p>
+
+                  {% if job.matching_skills %}
+                  <p class="recommendation">
+                    ✅ Matched Skills:
+                    {{ job.matching_skills|join(', ') }}
+                  </p>
+                  {% endif %}
+
+                  {% if job.missing_skills %}
+                  <p class="recommendation">
+                    ❌ Missing Skills:
+                    {{ job.missing_skills[:6]|join(', ') }}
+                    {% if job.missing_skills|length > 6 %}...{% endif %}
+                  </p>
+                  {% endif %}
+
+                  <p class="recommendation">
+                    📊 Skill Coverage:
+                    <strong>{{ job.skill_coverage }}%</strong>
+                  </p>
+
+                  {% if job.suggestions %}
+                  <div class="recommendation">
+                    💡 <strong>AI Suggestions:</strong>
+                    <ul>
+                      {% for suggestion in job.suggestions %}
+                      <li>{{ suggestion }}</li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                  {% endif %}
+                </div>
+                {% endfor %}
+              </div>
+            </section>
+            {% else %}
+            <section class="tech-card fade-in-up delay-2">
+              <h3 class="orbitron" style="margin-bottom: 0.4rem;">
+                No analysis yet
+              </h3>
+              <p style="font-size: 0.95rem; color: var(--gray);">
+                Upload a resume on the left to see ranked job matches, skill gaps, and
+                AI suggestions here.
+              </p>
+            </section>
+            {% endif %}
+          </div>
+        </div>
+      </section>
+    </main>
 
     <!-- SIMPLE LOADING ANIMATION ON FORM SUBMIT -->
     <script>
