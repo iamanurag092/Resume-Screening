@@ -17,7 +17,7 @@ import warnings
 import unicodedata
 import requests
 import json
-import google.generativeai as genai
+# import google.generativeai as genai
 import subprocess
 
 from docx import Document
