@@ -11,6 +11,14 @@ import joblib
 from flask import Flask, render_template, request, redirect, url_for
 from sentence_transformers import SentenceTransformer, util
 from werkzeug.utils import secure_filename
+import joblib
+import warnings
+import unicodedata
+import requests
+import json
+import google.generativeai as genai
+import subprocess
+
 from docx import Document
 from pdfminer.high_level import extract_text as extract_pdf_text
 
