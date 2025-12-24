@@ -1,5 +1,6 @@
 # File: app.py
 
+
 import os
 import re
 import logging
@@ -21,6 +22,9 @@ import subprocess
 
 from docx import Document
 from pdfminer.high_level import extract_text as extract_pdf_text
+
+ENABLE_REWRITER = os.getenv("ENABLE_REWRITER", "false").lower() == "true"
+
 
 # -------------------------------------------------------------------
 # Logging setup
@@ -413,30 +417,36 @@ def index():
     )
 
 
-@app.route("/rewrite", methods=["POST"])
+@app.route('/rewrite', methods=['POST'])
 def rewrite():
-    """
-    GenAI resume bullet rewriter (Ollama LLaMA-3).
-    """
+    if not ENABLE_REWRITER:
+        return render_template(
+            "index.html",
+            error="GenAI Resume Rewriter is disabled in the public demo. Run locally to access this feature.",
+            results=None,
+            resume_score=None,
+            score_message=None,
+            rewrite_original=None,
+            rewrite_target_role=None,
+            rewrite_output=None,
+            feedback_success=None,
+            feedback_avg=None,
+            feedback_count=None
+        )
+
     original_text = request.form.get("raw_text", "")
     target_role = request.form.get("target_role", "")
 
     rewritten_text = rewrite_resume_text_with_ai(original_text, target_role)
-    feedback_avg, feedback_count = get_feedback_stats()
 
     return render_template(
         "index.html",
-        results=None,
-        resume_score=None,
-        score_message=None,
-        error=None,
         rewrite_original=original_text,
         rewrite_target_role=target_role,
         rewrite_output=rewritten_text,
-        feedback_success=None,
-        feedback_avg=feedback_avg,
-        feedback_count=feedback_count,
+        results=None
     )
+
 
 
 @app.route("/feedback", methods=["POST"])

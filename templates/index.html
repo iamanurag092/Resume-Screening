@@ -144,7 +144,7 @@
               {% endif %}
             </section>
 
-            <!-- GENAI RESUME REWRITER -->
+            <!-- GENAI RESUME REWRITER
             <section class="upload-panel tech-card fade-in-up delay-2">
               <h2 class="orbitron panel-title">
                 ✨ GenAI Resume Bullet Rewriter
@@ -191,7 +191,19 @@
                 </pre>
               </div>
               {% endif %}
-            </section>
+            </section> -->
+
+
+
+
+            {% if ENABLE_REWRITER %}
+  <!-- GenAI Resume Rewriter Section -->
+{% else %}
+  <p class="info-text">
+    ⚠️ GenAI Resume Rewriter is available in the local version due to compute constraints.
+  </p>
+{% endif %}
+
 
             <!-- FEEDBACK PANEL -->
             <section class="tech-card feedback-panel fade-in-up delay-3">
