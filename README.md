@@ -10,7 +10,7 @@ It analyzes resumes, matches them with suitable job roles using **Sentence Trans
 ## 🌐 Live Deployment
 
 🔗 **Live App:**  
-[ResuMizer](https://web-production-aa5c6.up.railway.app/app)
+[ResuMizer](https://web-production-aa5c6.up.railway.app/)
 
 🎬 **Working Demo (YouTube):**  
 [Watch on YouTube](https://youtu.be/YOUR_VIDEO_ID)
