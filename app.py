@@ -488,10 +488,6 @@ def feedback():
 # ENTRY POINT
 # -------------------------------------------------------------------
 if __name__ == "__main__":
-    if jobs_df is None:
-        print("*********************************************************")
-        print("STOP: Application cannot start due to data loading errors.")
-        print("Please run 'python create_embeddings.py' first to prepare data.")
-        print("*********************************************************")
-    else:
-        app.run(debug=True)
+    port = int(os.environ.get("PORT", 8000))
+    app.run(host="0.0.0.0", port=port)
+
