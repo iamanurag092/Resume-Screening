@@ -10,9 +10,9 @@ It analyzes resumes, matches them with suitable job roles using **Sentence Trans
 ## 🌐 Live Deployment
 
 🔗 **Live App:**  
-```
-https://m4v7lcj4-5000.inc1.devtunnels.ms/
-```
+``
+web-production-aa5c6.up.railway.app
+``
 
 🎬 **Working Demo (YouTube):**  
 ```
